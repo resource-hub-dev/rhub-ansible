@@ -1,0 +1,10 @@
+namespace: rhub
+name: rhub
+version: 0.1.0
+readme: README.md
+authors:
+  - Red Hat, Inc. <nobody@redhat.com>
+license:
+  - MIT
+license_file: LICENSE
+repository: https://github.com/resource-hub-dev/rhub-ansible
