@@ -39,7 +39,7 @@ EXAMPLES = """
 - name: get cluster info
   ansible.builtin.debug:
     msg: "{{ lookup('rhub.rhub.rhub_api', '/v0/lab/cluster/1', addr='https://rhub.stage.example.com/') }}"
-"""
+"""  # noqa: B950
 
 RETURN = """
 _list:
