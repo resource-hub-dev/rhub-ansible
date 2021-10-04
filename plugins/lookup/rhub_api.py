@@ -51,16 +51,12 @@ _list:
 
 
 import os
-import datetime
 
-import requests
-
-from ansible.errors import AnsibleError
 from ansible.plugins.lookup import LookupBase
 from ansible.utils.display import Display
 
 from ansible_collections.rhub.rhub.plugins.module_utils.rhub_api import (
-    RHubApiClient, RHubApiError
+    RHubApiClient
 )
 
 

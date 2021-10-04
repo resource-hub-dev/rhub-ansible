@@ -79,16 +79,10 @@ problem:
 """
 
 
-import os
-import datetime
 import json
 
-import requests
-
-from ansible.errors import AnsibleError
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.basic import env_fallback
-from ansible.module_utils._text import to_text
 
 from ansible_collections.rhub.rhub.plugins.module_utils.rhub_api import (
     RHubApiClient, RHubApiError
