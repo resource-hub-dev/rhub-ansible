@@ -72,7 +72,7 @@ EXAMPLES = """
 RETURN = """
 data:
     description: Response data
-    returned: when succeeded
+    returned: when succeeded and API returned data (ie. DELETE doesn't return any data)
 problem:
     description: Problem data
     returned: when failed
@@ -139,7 +139,10 @@ def main():
     try:
         rhub_api = RHubApiClient(addr, username, password)
         response = rhub_api.request(method, path, data=body)
-        module.exit_json(data=response.json(), changed=method != 'GET')
+        if response.text:
+            module.exit_json(data=response.json(), changed=method != 'GET')
+        else:
+            module.exit_json(changed=method != 'GET')
     except RHubApiError as e:
         module.fail_json(problem=e.problem, msg=str(e))
 

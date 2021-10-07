@@ -1,6 +1,6 @@
 namespace: rhub
 name: rhub
-version: 0.1.0
+version: 0.1.1
 readme: README.md
 authors:
   - Red Hat, Inc. <nobody@redhat.com>

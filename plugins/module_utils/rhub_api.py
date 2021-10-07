@@ -13,6 +13,8 @@ class RHubApiError(Exception):
     def from_requests_response(cls, response):
         try:
             problem = response.json()
+            if problem is None:
+                problem = {}
         except Exception:
             problem = {}
         return cls(problem.get('detail', 'Unknown error'),
