@@ -5,34 +5,31 @@ DOCUMENTATION = """
 module: rhub_api
 short_description: Interacts with Resource Hub API.
 description:
-    - Retrieve data from Resource Hub API.
+  - Retrieve data from Resource Hub API.
 options:
-    _terms:
-      description:
-        - API endpoint path.
-      required: true
-      type: str
-    addr:
-      description:
-        - Resource Hub base address.
-      required: true
-      type: str
-      env:
-        - name: RHUB_API_ADDR
-    username:
-      description:
-        - API user.
-      required: true
-      type: str
-      env:
-        - name: RHUB_API_USER
-    password:
-      description:
-        - Password for API user.
-      required: true
-      type: str
-      env:
-        - name: RHUB_API_PASS
+  _terms:
+    description:
+      - API endpoint path.
+    required: true
+    type: str
+  addr:
+    description:
+      - Resource Hub base address.
+      - If not set the environment variable C(RHUB_API_ADDR) will be used.
+    required: true
+    type: str
+  username:
+    description:
+      - API user.
+      - If not set the environment variable C(RHUB_API_USER) will be used.
+    required: true
+    type: str
+  password:
+    description:
+      - Password for API user.
+      - If not set the environment variable C(RHUB_API_PASS) will be used.
+    required: true
+    type: str
 """
 
 EXAMPLES = """
@@ -44,7 +41,8 @@ EXAMPLES = """
 RETURN = """
 _list:
   description:
-    - Data returned from the API.
+    - Data returned from the API or problem data (L(RFC 7807,
+      https://tools.ietf.org/html/rfc7807)).
   type: list
   elements: raw
 """
