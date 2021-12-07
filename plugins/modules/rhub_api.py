@@ -6,46 +6,43 @@ DOCUMENTATION = """
 module: rhub_api
 short_description: Interacts with Resource Hub API.
 description:
-    - Interacts with Resource Hub API.
+  - Interacts with Resource Hub API.
 options:
-    addr:
-      description:
-        - Resource Hub base address.
-      required: true
-      type: str
-      env:
-        - name: RHUB_API_ADDR
-    method:
-      description:
-        - HTTP API method.
-      required: false
-      type: str
-      default: GET
-      choices: [GET, POST, PATCH, DELETE]
-    path:
-      description:
-        - API endpoint path.
-      required: true
-      type: str
-    username:
-      description:
-        - API user.
-      required: true
-      type: str
-      env:
-        - name: RHUB_API_USER
-    password:
-      description:
-        - Password for API user.
-      required: true
-      type: str
-      env:
-        - name: RHUB_API_PASS
-    body:
-      description:
-        - Resource Hub base address.
-      required: false
-      type: raw
+  addr:
+    description:
+      - Resource Hub base address.
+      - If not set the environment variable C(RHUB_API_ADDR) will be used.
+    required: true
+    type: str
+  method:
+    description:
+      - HTTP API method.
+    required: false
+    type: str
+    default: GET
+    choices: [GET, POST, PATCH, DELETE]
+  path:
+    description:
+      - API endpoint path.
+    required: true
+    type: str
+  username:
+    description:
+      - API user.
+      - If not set the environment variable C(RHUB_API_USER) will be used.
+    required: true
+    type: str
+  password:
+    description:
+      - Password for API user.
+      - If not set the environment variable C(RHUB_API_PASS) will be used.
+    required: true
+    type: str
+  body:
+    description:
+      - Resource Hub base address.
+    required: false
+    type: raw
 """
 
 EXAMPLES = """
@@ -71,11 +68,14 @@ EXAMPLES = """
 
 RETURN = """
 data:
-    description: Response data
-    returned: when succeeded and API returned data (ie. DELETE doesn't return any data)
+  description:
+    - Response data
+    - when request succeeded and API returned data (ie. DELETE doesn't return
+      any data)
+  returned: success
 problem:
-    description: Problem data
-    returned: when failed
+  description: Problem data (L(RFC 7807, https://tools.ietf.org/html/rfc7807))
+  returned: failure
 """
 
 
