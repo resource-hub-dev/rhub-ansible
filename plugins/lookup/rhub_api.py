@@ -16,20 +16,18 @@ options:
     description:
       - Resource Hub base address.
       - If not set the environment variable C(RHUB_API_ADDR) will be used.
-    required: true
+    required: false
     type: str
-  username:
+    env:
+      - name: RHUB_API_ADDR
+  token:
     description:
-      - API user.
-      - If not set the environment variable C(RHUB_API_USER) will be used.
-    required: true
+      - API auth token.
+      - If not set the environment variable C(RHUB_API_TOKEN) will be used.
+    required: false
     type: str
-  password:
-    description:
-      - Password for API user.
-      - If not set the environment variable C(RHUB_API_PASS) will be used.
-    required: true
-    type: str
+    env:
+      - name: RHUB_API_TOKEN
 """
 
 EXAMPLES = """
@@ -48,8 +46,6 @@ _list:
 """
 
 
-import os
-
 from ansible.plugins.lookup import LookupBase
 from ansible.utils.display import Display
 
@@ -65,9 +61,9 @@ class LookupModule(LookupBase):
     def run(self, terms, variables=None, **kwargs):
         self.set_options(var_options=variables, direct=kwargs)
 
-        addr = os.getenv('RHUB_API_ADDR') or self.get_option('addr')
-        username = os.getenv('RHUB_API_USER') or self.get_option('username')
-        password = os.getenv('RHUB_API_PASS') or self.get_option('password')
+        rhub_api = RHubApiClient(
+            self.get_option('addr'),
+            self.get_option('token'),
+        )
 
-        rhub_api = RHubApiClient(addr, username, password)
         return [rhub_api.request('GET', term).text for term in terms]

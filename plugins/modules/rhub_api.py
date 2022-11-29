@@ -14,6 +14,12 @@ options:
       - If not set the environment variable C(RHUB_API_ADDR) will be used.
     required: true
     type: str
+  token:
+    description:
+      - API auth token.
+      - If not set the environment variable C(RHUB_API_TOKEN) will be used.
+    required: true
+    type: str
   method:
     description:
       - HTTP API method.
@@ -24,18 +30,6 @@ options:
   path:
     description:
       - API endpoint path.
-    required: true
-    type: str
-  username:
-    description:
-      - API user.
-      - If not set the environment variable C(RHUB_API_USER) will be used.
-    required: true
-    type: str
-  password:
-    description:
-      - Password for API user.
-      - If not set the environment variable C(RHUB_API_PASS) will be used.
     required: true
     type: str
   body:
@@ -49,16 +43,14 @@ EXAMPLES = """
 - name: get region info
   rhub.rhub.rhub_api:
     addr: https://rhub.example.com
-    username: admin
-    password: p4ssw0rd
+    token: s3cr3t_t0k3n
     method: GET
     path: /v0/lab/region/1
 
 - name: launch tower template
   rhub.rhub.rhub_api:
     addr: https://rhub.example.com
-    username: admin
-    password: p4ssw0rd
+    token: s3cr3t_t0k3n
     method: POST
     path: /v0/tower/template/123/launch
     body:
@@ -97,6 +89,12 @@ def main():
                 'type': 'str',
                 'fallback': (env_fallback, ['RHUB_API_ADDR'])
             },
+            'token': {
+                'required': True,
+                'type': 'str',
+                'no_log': True,
+                'fallback': (env_fallback, ['RHUB_API_TOKEN']),
+            },
             'path': {
                 'required': True,
                 'type': 'str',
@@ -107,17 +105,6 @@ def main():
                 'choices': ['GET', 'POST', 'PATCH', 'DELETE'],
                 'default': 'GET'
             },
-            'username': {
-                'required': True,
-                'type': 'str',
-                'fallback': (env_fallback, ['RHUB_API_USER']),
-            },
-            'password': {
-                'required': True,
-                'type': 'str',
-                'no_log': True,
-                'fallback': (env_fallback, ['RHUB_API_PASS']),
-            },
             'body': {
                 'required': False,
                 'type': 'raw',
@@ -127,17 +114,16 @@ def main():
     )
 
     addr = module.params['addr']
+    token = module.params['token']
     path = module.params['path']
     method = module.params['method']
-    username = module.params['username']
-    password = module.params['password']
     body = module.params['body']
 
     if not isinstance(body, str):
         body = json.dumps(body)
 
     try:
-        rhub_api = RHubApiClient(addr, username, password)
+        rhub_api = RHubApiClient(addr, token)
         response = rhub_api.request(method, path, data=body)
         if response.text:
             module.exit_json(data=response.json(), changed=method != 'GET')
